@@ -31,5 +31,17 @@ module Fizzy
 
     desc "tag SUBCOMMAND", "Manage tags"
     subcommand "tag", Commands::Tag
+
+    desc "comment SUBCOMMAND", "Manage comments"
+    subcommand "comment", Commands::Comment
+
+    desc "reaction SUBCOMMAND", "Manage reactions"
+    subcommand "reaction", Commands::Reaction
+
+    desc "step SUBCOMMAND", "Manage steps (to-do items)"
+    subcommand "step", Commands::Step
+
+    desc "notification SUBCOMMAND", "Manage notifications"
+    subcommand "notification", Commands::Notification
   end
 end

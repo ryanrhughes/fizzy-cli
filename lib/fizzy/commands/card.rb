@@ -100,6 +100,83 @@ module Fizzy
       rescue Fizzy::Error => e
         output_error(e)
       end
+
+      # Card Action Commands
+
+      desc "close NUMBER", "Close a card"
+      def close(number)
+        result = client.post(client.account_path("/cards/#{number}/closure"), {})
+        output(result)
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
+
+      desc "reopen NUMBER", "Reopen a closed card"
+      def reopen(number)
+        result = client.delete(client.account_path("/cards/#{number}/closure"))
+        output(result || Response.success(data: { reopened: true }))
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
+
+      desc "postpone NUMBER", "Postpone a card (mark as not now)"
+      def postpone(number)
+        result = client.post(client.account_path("/cards/#{number}/not_now"), {})
+        output(result)
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
+
+      desc "column NUMBER", "Move a card into a column"
+      option :column, required: true, type: :string, desc: "Column ID to move into"
+      def column(number)
+        result = client.post(client.account_path("/cards/#{number}/triage"), { column_id: options[:column] })
+        output(result)
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
+
+      desc "untriage NUMBER", "Send a card back to triage"
+      def untriage(number)
+        result = client.delete(client.account_path("/cards/#{number}/triage"))
+        output(result || Response.success(data: { untriaged: true }))
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
+
+      desc "assign NUMBER", "Toggle assignment for a user on a card"
+      option :user, required: true, type: :string, desc: "User ID to toggle assignment"
+      def assign(number)
+        result = client.post(client.account_path("/cards/#{number}/assignments"), { assignee_id: options[:user] })
+        output(result)
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
+
+      desc "tag NUMBER", "Toggle a tag on a card (creates tag if needed)"
+      option :tag, required: true, type: :string, desc: "Tag title to toggle"
+      def tag(number)
+        result = client.post(client.account_path("/cards/#{number}/taggings"), { tag_title: options[:tag] })
+        output(result)
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
+
+      desc "watch NUMBER", "Watch a card for notifications"
+      def watch(number)
+        result = client.post(client.account_path("/cards/#{number}/watch"), {})
+        output(result)
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
+
+      desc "unwatch NUMBER", "Stop watching a card"
+      def unwatch(number)
+        result = client.delete(client.account_path("/cards/#{number}/watch"))
+        output(result || Response.success(data: { unwatched: true }))
+      rescue Fizzy::Error => e
+        output_error(e)
+      end
     end
   end
 end
