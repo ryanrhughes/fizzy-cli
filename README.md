@@ -1,6 +1,6 @@
 # Fizzy CLI
 
-A command-line interface for the [Fizzy](https://fizzy.do) API. See the official API docs at https://github.com/basecamp/fizzy/blob/main/docs/API.md.
+A command-line interface for the [Fizzy](https://fizzy.do) API. See the official [API docs](https://github.com/basecamp/fizzy/blob/main/docs/API.md).
 
 ## Installation
 
